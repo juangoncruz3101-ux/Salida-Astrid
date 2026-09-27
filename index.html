@@ -6,7 +6,7 @@
     <title>¿Salimos? 💛</title>
     <style>
         body {
-            background-color: #b4c6fc;
+            background-color: #b4c6fc; /* Fondo azul/morado del video */
             font-family: sans-serif;
             margin: 0;
             padding: 20px;
@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             box-sizing: border-box;
         }
         .card {
@@ -78,34 +78,6 @@
         }
         .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; box-shadow: 3px 3px 0px #000; }
         .cat-container { font-size: 70px; margin: 15px 0; }
-        
-        .grid-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .option-box {
-            background: white;
-            border: 2px solid #000;
-            border-radius: 12px;
-            padding: 10px 5px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            box-shadow: 2px 2px 0px #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            user-select: none;
-        }
-        .option-box span { font-size: 1.6rem; }
-        .option-box.selected {
-            background: #b4c6fc;
-            box-shadow: 1px 1px 0px #000;
-            transform: translate(1px, 1px);
-        }
     </style>
 </head>
 <body>
@@ -131,7 +103,7 @@
             <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DE FECHA -->
+        <!-- PASO 2: SELECCIÓN DE FECHA LIBRE -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
             <div class="cat-container">📅✨</div>
@@ -142,62 +114,13 @@
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01">
             <input type="time" id="horaCita" value="20:00">
             
-            <button class="next-btn" onclick="irAlPaso3()">Siguiente ➔</button>
-        </div>
-
-        <!-- PASO 3: SELECCIÓN DE COMIDA -->
-        <div id="step3" class="step">
-            <span class="tag-step">Paso 2</span>
-            <div class="cat-container">🐱🍕</div>
-            <h2>¿Qué se te antoja comer?</h2>
-            <div class="grid-options">
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Pizza 🍕')"><span>🍕</span>pizza</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Japonesa 🍣')"><span>🍣</span>japonesa</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Tacos 🌮')"><span>🌮</span>tacos</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Burgers 🍔')"><span>🍔</span>burger</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
-            </div>
-            <button class="next-btn" onclick="irAlPaso4()">Siguiente ➔</button>
-        </div>
-
-        <!-- PASO 4: SELECCIÓN DE BEBIDAS -->
-        <div id="step4" class="step">
-            <span class="tag-step">Paso 3</span>
-            <div class="cat-container">🐱🥂</div>
-            <h2>¿Y para tomar? 🥂</h2>
-            <div class="grid-options">
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Vino 🍷')"><span>🍷</span>Vinos</div>
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Cerveza 🍺')"><span>🍺</span>Cerveza</div>
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Trago/Cóctel 🍹')"><span>🍹</span>Trago</div>
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Sake 🍶')"><span>🍶</span>Sake</div>
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
-            </div>
-            <button class="next-btn" onclick="generarResumen()">Confirmar Plan ➔</button>
-        </div>
-
-        <!-- PASO 5: RESUMEN FINAL -->
-        <div id="step5" class="step">
-            <span class="tag-step">Confirmado</span>
-            <div class="cat-container">🐱🚗💨</div>
-            <h2>¡Trato hecho, Astrid! 🎉</h2>
-            <p>Ya quedó todo anotado para nuestro día:</p>
-            <h3 id="resumenFecha" style="background: #ffe6a3; padding: 12px; border-radius: 12px; border: 2px solid #000; font-size: 1.1rem; line-height: 1.4;"></h3>
-            <p style="font-size: 1.1rem; margin-top: 15px;">Comida: <strong id="resumenComida"></strong></p>
-            <p style="font-size: 1.1rem;">Bebida: <strong id="resumenBebida"></strong></p>
-            <p style="font-size: 0.9rem; color: #555; margin-top: 25px; font-style: italic;">¡Tómale captura a esto y envíamelo! 💛</p>
+            <button class="next-btn" onclick="alert('¡Llegamos aquí de forma segura! Avísame si este bloque cargó bien para decirte cómo añadir el siguiente paso sin romperlo.')">Siguiente ➔</button>
         </div>
     </div>
 
     <script>
         let tamanoSi = 1;
         let clickNo = 0;
-        let comidaSeleccionada = "Lo que tú quieras 💛";
-        let bebidaSeleccionada = "Lo que tú quieras 💛";
         const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
 
         function accionNo() {
@@ -223,11 +146,16 @@
             nextStep('stepIntermedio');
         }
 
-        function irAlPaso2() { nextStep('step2'); }
-        function irAlPaso3() { nextStep('step3'); }
-        function irAlPaso4() { nextStep('step4'); }
+        function irAlPaso2() {
+            nextStep('step2');
+        }
 
         function nextStep(stepId) {
             document.querySelectorAll('.step').forEach(function(step) {
                 step.classList.remove('active');
             });
+            document.getElementById(stepId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
