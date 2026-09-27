@@ -6,7 +6,7 @@
     <title>¿Salimos? 💛</title>
     <style>
         body {
-            background-color: #b4c6fc; /* Fondo azul/morado como el video */
+            background-color: #b4c6fc; /* Fondo azul del video */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
@@ -25,7 +25,7 @@
             max-width: 400px;
             width: 100%;
             text-align: center;
-            border: 3px solid #000; /* Estilo marcado del video */
+            border: 3px solid #000; /* Estilo marcado tipo cómic */
             box-sizing: border-box;
             position: relative;
         }
@@ -120,7 +120,7 @@
 <body>
 
     <div class="card">
-        <!-- PASO 1: PREGUNTA INICIAL CON LOS BOTONES DEL VIDEO -->
+        <!-- PASO 1: PREGUNTA INICIAL -->
         <div id="step1" class="step active">
             <span class="tag-step">Pregunta Seria</span>
             <div class="cat-container" id="memeGato">🥺</div>
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DE DÍA Y HORA CON RESTRICCIONES REQUERIDAS -->
+        <!-- PASO 2: SELECCIÓN DE DÍA Y HORA -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
             <div class="cat-container jumping">😺🎉</div>
@@ -139,17 +139,16 @@
             <p>Pero tú elige las siguientes opciones:</p>
             <p style="font-weight: bold; margin-bottom: 5px;">1 - Elige el día y la hora:</p>
             
-            <!-- Calendario configurado estrictamente a partir del 01/10/2026 -->
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01" onchange="validarHorario()">
             <select id="horaCita">
-                <!-- Se rellena con JavaScript dinámicamente -->
+                <!-- Se rellena automáticamente -->
             </select>
             <div class="info-msg" id="errorHora"></div>
             
             <button class="next-btn" onclick="nextStep(3)">Siguiente ➔</button>
         </div>
 
-        <!-- PASO 3: SELECCIÓN DE COMIDA (REEMPLAZADOS JAPONESA Y COREANA COMO PEDISTE) -->
+        <!-- PASO 3: SELECCIÓN DE COMIDA -->
         <div id="step3" class="step">
             <span class="tag-step">Paso 2</span>
             <div class="cat-container">🐱🍕</div>
@@ -168,7 +167,7 @@
             <button class="next-btn" onclick="nextStep(4)">Siguiente ➔</button>
         </div>
 
-        <!-- PASO 4: SELECCIÓN DE BEBIDAS SOLICITADAS -->
+        <!-- PASO 4: SELECCIÓN DE BEBIDAS -->
         <div id="step4" class="step">
             <span class="tag-step">Paso 3</span>
             <div class="cat-container">🐱🥂</div>
@@ -220,4 +219,10 @@
             btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
+        function irAlPaso2() {
+            nextStep(2);
+            validarHorario();
+        }
 
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
