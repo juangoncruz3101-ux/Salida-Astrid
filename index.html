@@ -3,106 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Salimos? 💛</title>
+    <title>Pregunta 💛</title>
     <style>
         body {
-            background-color: #b4c6fc; /* Fondo azul/morado como el video */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #b4c6fc; /* Fondo azul del video */
+            font-family: sans-serif;
             margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
-            box-sizing: border-box;
         }
         .card {
             background: #fffdf0;
-            padding: 25px;
-            border-radius: 24px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-            max-width: 400px;
-            width: 100%;
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
-            border: 3px solid #000; /* Borde marcado del video */
-            box-sizing: border-box;
-            position: relative;
+            border: 3px solid #000;
+            max-width: 350px;
+            width: 100%;
         }
-        .tag-step {
+        .gato {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+        .pregunta {
             background: #ffe6a3;
             border: 2px solid #000;
-            border-radius: 15px;
-            display: inline-block;
-            padding: 4px 15px;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            padding: 5px;
             font-weight: bold;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+            font-size: 0.8rem;
+            display: inline-block;
         }
-        h2 { color: #000; font-size: 1.45rem; margin: 10px 0; line-height: 1.3; }
-        
-        .btn-container {
+        h2 { font-size: 1.4rem; color: #000; margin: 15px 0; }
+        .botones {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            margin-top: 25px;
-            height: 90px;
-            position: relative;
+            margin-top: 20px;
+            height: 80px;
         }
         button {
             padding: 12px 25px;
             font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 15px;
+            border-radius: 12px;
             border: 2px solid #000;
             cursor: pointer;
             box-shadow: 3px 3px 0px #000;
         }
-        
-        #btnSi { background-color: #a3fca3; color: #000; transition: transform 0.1s ease; }
-        #btnNo { background-color: #fca3a3; color: #000; position: relative; z-index: 5; }
-        
-        .cat-container { font-size: 70px; margin: 15px 0; height: 90px; display: flex; justify-content: center; align-items: center; }
+        #si { background-color: #a3fca3; }
+        #no { background-color: #fca3a3; position: relative; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <span class="tag-step">Pregunta Seria</span>
-        <div class="cat-container" id="memeGato">🥺</div>
+        <div class="pregunta">PREGUNTA SERIA</div>
+        <!-- Inicio con gatos saludando como en el video -->
+        <div class="gato" id="gatoMeme">🐱👋</div>
         <h2>¿Quieres acompañarme a hacer algo divertido juntos?</h2>
         
-        <div class="btn-container">
-            <!-- Al presionar Sí, de momento solo saldrá un aviso para probar si responde -->
-            <button id="btnSi" onclick="alert('¡Excelente! El botón Sí funciona. Avísame para darte el siguiente paso.')">Sí</button>
-            <button id="btnNo" onclick="accionNo()" onmouseover="accionNo()">No</button>
+        <div class="botones">
+            <button id="si" onclick="alert('¡Perfecto! El botón SÍ respondió. Avísame para poner el paso 2.')">Sí</button>
+            <button id="no" onclick="moverNo()" onmouseover="moverNo()">No</button>
         </div>
     </div>
 
     <script>
-        let escalaSi = 1;
-        let conteoNo = 0;
-        const memesTristes = ["😾", "😿", "🐱💢", "😭", "🙀", "💔"];
+        let tamanoSi = 1;
+        // Lista de gatitos del video según presiona "No"
+        const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
+        let clickNo = 0;
 
-        function accionNo() {
-            conteoNo++;
-            const btnNo = document.getElementById('btnNo');
-            const btnSi = document.getElementById('btnSi');
-            const memeGato = document.getElementById('memeGato');
-            
-            // Hace crecer el botón SÍ
-            escalaSi += 0.3;
-            btnSi.style.transform = `scale(${escalaSi})`;
-            
-            // Cambia el emoji del gatito triste
-            memeGato.innerText = memesTristes[conteoNo % memesTristes.length];
-            
-            // Mueve el botón NO dentro de un espacio seguro para evitar que se congele
-            const randomX = (Math.random() - 0.5) * 160;
-            const randomY = (Math.random() - 0.5) * 80;
-            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        function moverNo() {
+            clickNo++;
+            const btnNo = document.getElementById('no');
+            const btnSi = document.getElementById('si');
+            const gato = document.getElementById('gatoMeme');
+
+            // Hacer crecer el botón SÍ
+            tamanoSi += 0.3;
+            btnSi.style.transform = `scale(${tamanoSi})`;
+
+            // Cambiar los gatitos del video
+            gato.innerText = gatosVideo[clickNo % gatosVideo.length];
+
+            // Movimiento básico ultra-seguro para que no se congele en celular
+            const x = (Math.random() - 0.5) * 140;
+            const y = (Math.random() - 0.5) * 60;
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
         }
     </script>
 </body>
