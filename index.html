@@ -120,7 +120,7 @@
 <body>
 
     <div class="card">
-        <!-- PASO 1: LA PREGUNTA INICIAL CON LOS GATITOS FUNCIONALES -->
+        <!-- PASO 1: LA PREGUNTA INICIAL CON LOS GATITOS -->
         <div id="step1" class="step active">
             <span class="tag-step">Pregunta Seria</span>
             <div class="cat-container" id="gatoMeme">🐱👋</div>
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <!-- PASO 2: RESTRICCIONES DE HORARIOS Y FECHA A PARTIR DEL 01/10/2026 -->
+        <!-- PASO 2: HORARIOS Y FECHA A PARTIR DEL 01/10/2026 -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
             <div class="cat-container jumping">😺🎉</div>
@@ -141,14 +141,14 @@
             
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01" onchange="validarHorario()">
             <select id="horaCita">
-                <!-- Se rellena automáticamente mediante JavaScript -->
+                <!-- Se rellena automáticamente -->
             </select>
             <div class="info-msg" id="errorHora"></div>
             
             <button class="next-btn" onclick="nextStep(3)">Siguiente ➔</button>
         </div>
 
-        <!-- PASO 3: SELECCIÓN DE COMIDA (JAPONESA Y COREANA CAMBIADAS) -->
+        <!-- PASO 3: SELECCIÓN DE COMIDA (JAPONESA Y COREANA REEMPLAZADAS) -->
         <div id="step3" class="step">
             <span class="tag-step">Paso 2</span>
             <div class="cat-container">🐱🍕</div>
@@ -161,7 +161,7 @@
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café 22')"><span>☕</span>café</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
             </div>
             <button class="next-btn" onclick="nextStep(4)">Siguiente ➔</button>
@@ -171,19 +171,19 @@
         <div id="step4" class="step">
             <span class="tag-step">Paso 3</span>
             <div class="cat-container">🐱🥂</div>
-            <h2>¿Andamos con sed? ¿Qué tomamos? 🥂</h2>
+            <h2>¿Y para tomar? 🥂</h2>
             <div class="grid-options">
-                <div class="option-box" onclick="selectItem(this, 'bebida', 'Vino 🍷')"><span>🍷</span>Vino</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Vino 🍷')"><span>🍷</span>Vinos</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Cerveza 🍺')"><span>🍺</span>Cerveza</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Trago/Cóctel 🍹')"><span>🍹</span>Trago</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Sake 🍶')"><span>🍶</span>Sake</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
-                <div class="option-box" onclick="selectItem(this, 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
             </div>
             <button class="next-btn" onclick="generarResumen()">Confirmar Plan ➔</button>
         </div>
 
-        <!-- PASO 5: RESUMEN FINAL CON FORMATO REPARADO COMPLETAMENTE -->
+        <!-- PASO 5: RESUMEN FINAL -->
         <div id="step5" class="step">
             <span class="tag-step">Confirmado</span>
             <div class="cat-container">🐱🚗💨</div>
@@ -211,12 +211,17 @@
             const gato = document.getElementById('gatoMeme');
             
             tamanoSi += 0.35;
-            btnSi.style.transform = `scale(${tamanoSi})`;
+            btnSi.style.transform = "scale(" + tamanoSi + ")";
             gato.innerText = gatosVideo[clickNo % gatosVideo.length];
             
             const randomX = (Math.random() - 0.5) * 160;
             const randomY = (Math.random() - 0.5) * 80;
-            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            btnNo.style.transform = "translate(" + randomX + "px, " + randomY + "px)";
         }
 
         function irAlPaso2() {
+            nextStep(2);
+            validarHorario();
+        }
+
+        function nextStep(stepNumber) {
