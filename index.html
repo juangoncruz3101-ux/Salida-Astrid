@@ -66,8 +66,8 @@
         .step { display: none; }
         .step.active { display: block; }
         
-        /* Estilos para el calendario y selectores */
-        input {
+        /* Formularios y reloj */
+        input, select {
             width: 100%;
             padding: 12px;
             margin: 8px 0;
@@ -76,11 +76,14 @@
             font-size: 1rem;
             font-weight: bold;
             box-sizing: border-box;
+            background-color: white;
         }
         .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; box-shadow: 3px 3px 0px #000; }
         .cat-container { font-size: 70px; margin: 15px 0; }
+        .jumping { animation: jump 0.6s infinite alternate; }
+        @keyframes jump { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
         
-        /* Cuadrículas de opciones */
+        /* Cuadrículas */
         .grid-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -108,6 +111,8 @@
             box-shadow: 1px 1px 0px #000;
             transform: translate(1px, 1px);
         }
+        
+        .info-msg { color: #444; font-size: 0.9rem; font-weight: bold; margin-top: 10px; background: #fff4ca; padding: 8px; border-radius: 8px; border: 1px dashed #000; text-align: left; }
     </style>
 </head>
 <body>
@@ -133,16 +138,19 @@
             <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DE FECHA -->
+        <!-- PASO 2: SELECCIÓN DE FECHA CON RELOJ PERSONALIZADO -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
-            <div class="cat-container">📅✨</div>
+            <div class="cat-container jumping">📅✨</div>
             <h2>¡Listo! El plan principal lo armo yo...</h2>
             <p>Pero tú elige las siguientes opciones:</p>
             <p style="font-weight: bold;">1 - Elige el día y la hora:</p>
             
-            <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01">
-            <input type="time" id="horaCita" value="20:00">
+            <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01" onchange="validarHorario()">
+            <select id="horaCita">
+                <!-- Se llena de forma dinámica con JS -->
+            </select>
+            <div class="info-msg" id="errorHora"></div>
             
             <button class="next-btn" onclick="irAlPaso3()">Siguiente ➔</button>
         </div>
@@ -160,13 +168,13 @@
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Café 22')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
             </div>
             <button class="next-btn" onclick="irAlPaso4()">Siguiente ➔</button>
         </div>
 
-        <!-- PASO 4: SELECCIÓN DE BEBIDAS REQUERIDAS -->
+        <!-- PASO 4: SELECCIÓN DE BEBIDAS -->
         <div id="step4" class="step">
             <span class="tag-step">Paso 3</span>
             <div class="cat-container">🐱🥂</div>
@@ -179,11 +187,23 @@
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
             </div>
-            <button class="next-btn" onclick="alert('¡Bebidas configuradas perfectamente! Avísame para añadir las reglas del reloj e inteligencia del calendario.')">Siguiente ➔</button>
+            <button class="next-btn" onclick="generarResumen()">Confirmar Plan ➔</button>
+        </div>
+
+        <!-- PASO 5: RESUMEN FINAL -->
+        <div id="step5" class="step">
+            <span class="tag-step">Confirmado</span>
+            <div class="cat-container">🐱🚗💨</div>
+            <h2>¡Trato hecho, Astrid! 🎉</h2>
+            <p>Ya quedó todo anotado para nuestro día:</p>
+            <h3 id="resumenFecha" style="background: #ffe6a3; padding: 12px; border-radius: 12px; border: 2px solid #000; font-size: 1rem; line-height: 1.4;"></h3>
+            <p style="font-size: 1.1rem; margin-top: 15px;">Comida: <strong id="resumenComida"></strong></p>
+            <p style="font-size: 1.1rem;">Bebida: <strong id="resumenBebida"></strong></p>
+            <p style="font-size: 0.9rem; color: #555; margin-top: 25px; font-style: italic;">¡Tómale captura a esto y envíamelo! 💛</p>
         </div>
     </div>
 
-    <script {nonce}>
+    <script>
         let tamanoSi = 1;
         let clickNo = 0;
         let comidaSeleccionada = "Lo que tú quieras 💛";
@@ -204,44 +224,3 @@
             const y = Math.random() * (window.innerHeight - 80);
             
             btnNo.style.position = "fixed";
-            btnNo.style.left = x + "px";
-            btnNo.style.top = y + "px";
-        }
-
-        function irAlPasoIntermedio() {
-            document.getElementById('btnNo').style.position = "absolute"; 
-            nextStep('stepIntermedio');
-        }
-
-        function irAlPaso2() {
-            nextStep('step2');
-        }
-
-        function irAlPaso3() {
-            nextStep('step3');
-        }
-
-        function irAlPaso4() {
-            nextStep('step4');
-        }
-
-        function nextStep(stepId) {
-            document.querySelectorAll('.step').forEach(function(step) {
-                step.classList.remove('active');
-            });
-            document.getElementById(stepId).classList.add('active');
-        }
-
-        function selectItem(element, tipo, valor) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.option-box').forEach(function(opt) {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            
-            if(tipo === 'comida') comidaSeleccionada = valor;
-            if(tipo === 'bebida') bebidaSeleccionada = valor;
-        }
-    </script>
-</body>
-</html>
