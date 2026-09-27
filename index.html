@@ -6,7 +6,7 @@
     <title>¿Salimos? 💛</title>
     <style>
         body {
-            background-color: #b4c6fc; /* Fondo azul/morado del video */
+            background-color: #b4c6fc;
             font-family: sans-serif;
             margin: 0;
             padding: 20px;
@@ -75,12 +75,10 @@
             font-size: 1rem;
             font-weight: bold;
             box-sizing: border-box;
-            background-color: white;
         }
         .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; box-shadow: 3px 3px 0px #000; }
         .cat-container { font-size: 70px; margin: 15px 0; }
         
-        /* Cuadrículas */
         .grid-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -232,3 +230,4 @@
         function nextStep(stepId) {
             document.querySelectorAll('.step').forEach(function(step) {
                 step.classList.remove('active');
+            });
