@@ -133,7 +133,7 @@
             <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DE FECHA LIBRE -->
+        <!-- PASO 2: SELECCIÓN DE FECHA -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
             <div class="cat-container">📅✨</div>
@@ -141,7 +141,6 @@
             <p>Pero tú elige las siguientes opciones:</p>
             <p style="font-weight: bold;">1 - Elige el día y la hora:</p>
             
-            <!-- Calendario libre a partir del 01/10/2026 -->
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01">
             <input type="time" id="horaCita" value="20:00">
             
@@ -161,7 +160,7 @@
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Café 22')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
             </div>
             <button class="next-btn" onclick="irAlPaso4()">Siguiente ➔</button>
@@ -226,15 +225,10 @@
             nextStep('stepIntermedio');
         }
 
-        function irAlPaso2() {
-            nextStep('step2');
-        }
+        function irAlPaso2() { nextStep('step2'); }
+        function irAlPaso3() { nextStep('step3'); }
+        function irAlPaso4() { nextStep('step4'); }
 
-        function irAlPaso3() {
-            nextStep('step3');
-        }
-
-        function irAlPaso4() {
-            nextStep('step4');
-        }
-
+        function nextStep(stepId) {
+            document.querySelectorAll('.step').forEach(function(step) {
+                step.classList.remove('active');
