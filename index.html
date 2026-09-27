@@ -2,114 +2,161 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi GameHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Salimos? 💛</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #121212;
-            color: white;
+            background-color: #b4c6fc; /* Fondo azul/morado del video */
+            font-family: sans-serif;
             margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #1f1f1f;
-            padding: 1rem;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .game-list {
+            padding: 20px;
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            padding: 1rem;
-            gap: 1rem;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            box-sizing: border-box;
         }
-        .game-item {
-            background: #282828;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 180px;
+        .card {
+            background: #fffdf0;
+            padding: 25px;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            max-width: 400px;
+            width: 100%;
             text-align: center;
-            transition: transform 0.3s;
+            border: 3px solid #000;
+            box-sizing: border-box;
         }
-        .game-item:hover {
-            transform: scale(1.05);
+        .tag-step {
+            background: #ffe6a3;
+            border: 2px solid #000;
+            border-radius: 15px;
+            display: inline-block;
+            padding: 4px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
         }
-        .game-item img {
-            width: 100%;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+        h2 { color: #000; font-size: 1.4rem; margin: 10px 0; line-height: 1.3; }
+        p { font-size: 1.05rem; color: #333; }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 25px;
+            height: 90px;
+            position: relative;
         }
-        .game-item p {
-            margin: 0.5rem 0;
-            padding: 0 0.5rem;
-        }
-        #game-container {
-            position: fixed;
-            top: 50px;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            background: black;
-            border: 3px solid #09f;
-            border-radius: 10px;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
-        #game-container iframe {
-            flex-grow: 1;
-            width: 100%;
-            border: none;
-            border-radius: 0 0 10px 10px;
-        }
-        #close-btn {
-            background: #09f;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            padding: 10px;
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 15px;
+            border: 2px solid #000;
             cursor: pointer;
-            border-radius: 10px 10px 0 0;
-            align-self: flex-end;
+            box-shadow: 3px 3px 0px #000;
         }
+        #btnSi { background-color: #a3fca3; color: #000; }
+        #btnNo { background-color: #fca3a3; color: #000; position: absolute; transition: all 0.1s ease; }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #000;
+            font-size: 1rem;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+        .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; }
+        .cat-container { font-size: 70px; margin: 15px 0; }
     </style>
 </head>
 <body>
-    <header>Mi GameHub</header>
-    <div class="game-list">
-        <div class="game-item" onclick="openGame('https://example.com/game1')">
-            <img src="https://via.placeholder.com/180x100.png?text=Juego+1" alt="Juego 1">
-            <p>Juego 1</p>
-        </div>
-        <div class="game-item" onclick="openGame('https://example.com/game2')">
-            <img src="https://via.placeholder.com/180x100.png?text=Juego+2" alt="Juego 2">
-            <p>Juego 2</p>
-        </div>
-        <div class="game-item" onclick="openGame('https://example.com/game3')">
-            <img src="https://via.placeholder.com/180x100.png?text=Juego+3" alt="Juego 3">
-            <p>Juego 3</p>
-        </div>
-    </div>
 
-    <div id="game-container">
-        <button id="close-btn" onclick="closeGame()">Cerrar</button>
-        <iframe id="game-frame" src=""></iframe>
+    <div class="card">
+        <!-- PASO 1: PORTADA -->
+        <div id="step1" class="step active">
+            <span class="tag-step">Pregunta Seria</span>
+            <div class="cat-container" id="gatoMeme">🐱👋</div>
+            <h2>¿Quieres acompañarme a hacer algo divertido juntos?</h2>
+            <div class="btn-container">
+                <button id="btnSi" onclick="irAlPasoIntermedio()">Sí</button>
+                <!-- El botón No inicia en una posición fija dentro del contenedor -->
+                <button id="btnNo" style="right: 40px;" onclick="accionNo()" onmouseover="accionNo()">No</button>
+            </div>
+        </div>
+
+        <!-- PASO INTERMEDIO: REACCIÓN AL SÍ -->
+        <div id="stepIntermedio" class="step">
+            <span class="tag-step">Momento Emotivo</span>
+            <div class="cat-container">✨😻✨</div>
+            <h2>¡Genial! sabía que dirías que si <br>(si no te raptaba xD)</h2>
+            <p style="font-size: 2.5rem; margin: 15px 0;">✨😁👉👈💛✨</p>
+            <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
+        </div>
+
+        <!-- PASO 2: SELECCIÓN DE FECHA -->
+        <div id="step2" class="step">
+            <span class="tag-step">Paso 1</span>
+            <div class="cat-container">📅✨</div>
+            <h2>¡Listo! El plan principal lo armo yo...</h2>
+            <p>Pero tú elige las siguientes opciones:</p>
+            <p style="font-weight: bold;">1 - Elige el día y la hora:</p>
+            
+            <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01">
+            <input type="time" id="horaCita" value="20:00">
+            
+            <button class="next-btn" onclick="alert('¡Excelente! Llegamos al final de este bloque sin errores. Avísame para agregar la comida.')">Siguiente ➔</button>
+        </div>
     </div>
 
     <script>
-        function openGame(url) {
-            const container = document.getElementById('game-container');
-            const frame = document.getElementById('game-frame');
-            frame.src = url;
-            container.style.display = 'flex';
+        let tamanoSi = 1;
+        let clickNo = 0;
+        const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
+
+        function accionNo() {
+            clickNo++;
+            const btnNo = document.getElementById('btnNo');
+            const btnSi = document.getElementById('btnSi');
+            const gato = document.getElementById('gatoMeme');
+            
+            // Crece el botón SÍ
+            tamanoSi += 0.35;
+            btnSi.style.transform = "scale(" + tamanoSi + ")";
+            
+            // Cambia el gatito
+            gato.innerText = gatosVideo[clickNo % gatosVideo.length];
+            
+            // Mueve el botón NO de forma totalmente aleatoria por toda la ventana de la pantalla
+            // Restamos 100 para asegurar que no se salga por completo de los bordes del celular
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 80);
+            
+            btnNo.style.position = "fixed";
+            btnNo.style.left = x + "px";
+            btnNo.style.top = y + "px";
         }
-        function closeGame() {
-            const container = document.getElementById('game-container');
-            const frame = document.getElementById('game-frame');
-            frame.src = '';
-            container.style.display = 'none';
+
+        function irAlPasoIntermedio() {
+            // Regresa el botón No a su flujo para evitar superposiciones invisibles
+            document.getElementById('btnNo').style.position = "absolute"; 
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('stepIntermedio').classList.add('active');
+        }
+
+        function irAlPaso2() {
+            document.getElementById('stepIntermedio').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
         }
     </script>
 </body>
