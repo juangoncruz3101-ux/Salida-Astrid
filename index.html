@@ -75,6 +75,7 @@
             font-size: 1rem;
             font-weight: bold;
             box-sizing: border-box;
+            background-color: white;
         }
         .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; box-shadow: 3px 3px 0px #000; }
         .cat-container { font-size: 70px; margin: 15px 0; }
@@ -106,6 +107,27 @@
             background: #b4c6fc;
             box-shadow: 1px 1px 0px #000;
             transform: translate(1px, 1px);
+        }
+        
+        /* Mensaje sutil de error */
+        .alerta-error {
+            color: #d93838;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* Estilos del resumen final */
+        .resumen-box {
+            background: #ffe6a3;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #000;
+            text-align: left;
+            margin: 20px 0;
+            font-weight: bold;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -152,17 +174,18 @@
             <div class="cat-container">🐱🍕</div>
             <h2>¿Qué se te antoja comer?</h2>
             <div class="grid-options">
-                <div class="option-box" onclick="selectItem(this)"><span>🍕</span>pizza</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍣</span>japonesa</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🌮</span>tacos</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍔</span>burger</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍝</span>pasta</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍜</span>coreana</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this)"><span>☕</span>café</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🥞</span>brunch</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Pizza 🍕')"><span>🍕</span>pizza</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Japonesa 🍣')"><span>🍣</span>japonesa</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Tacos 🌮')"><span>🌮</span>tacos</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Burgers 🍔')"><span>🍔</span>burger</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
             </div>
-            <button class="next-btn" onclick="irAlPaso4()">Siguiente ➔</button>
+            <div class="alerta-error" id="errorComida">⚠️ Por favor, elige una opción de comida antes de avanzar.</div>
+            <button class="next-btn" onclick="validarPaso3()">Siguiente ➔</button>
         </div>
 
         <!-- PASO 4: SELECCIÓN DE BEBIDAS -->
@@ -171,32 +194,44 @@
             <div class="cat-container">🐱🥂</div>
             <h2>¿Y para tomar? 🥂</h2>
             <div class="grid-options">
-                <div class="option-box" onclick="selectItem(this)"><span>🍷</span>Vinos</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍺</span>Cerveza</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍹</span>Trago</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍶</span>Sake</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🍾</span>Soju</div>
-                <div class="option-box" onclick="selectItem(this)"><span>🥤</span>Sin Alcohol</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Vinos 🍷')"><span>🍷</span>Vinos</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Cerveza 🍺')"><span>🍺</span>Cerveza</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Trago/Cóctel 🍹')"><span>🍹</span>Trago</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Sake 🍶')"><span>🍶</span>Sake</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
+                <div class="option-box" onclick="selectItem(this, 'Cualquier otra 🥤')"><span>🥤</span>Cualquier otra</div>
             </div>
-            <button class="next-btn" onclick="irAlPasoFinal()">Confirmar Plan ➔</button>
+            <div class="alerta-error" id="errorBebida">⚠️ Por favor, elige una opción de bebida antes de confirmar.</div>
+            <button class="next-btn" onclick="validarPaso4()">Confirmar Plan ➔</button>
         </div>
 
-        <!-- PASO 5: LA ÚLTIMA VENTANA FIJA (CERRADA DE FORMA SEGURA) -->
+        <!-- PASO 5: LA ÚLTIMA VENTANA INTEGRADA -->
         <div id="step5" class="step">
             <span class="tag-step">Confirmado</span>
             <div class="cat-container">🐱🚗💨</div>
             <h2>¡Trato hecho, Astrid! 🎉</h2>
-            <p>¡Nuestra cita ha sido agendada con éxito!</p>
-            <div style="background: #ffe6a3; padding: 15px; border-radius: 12px; border: 2px solid #000; font-weight: bold; margin: 20px 0;">
-                💛 ¡Todo listo para nuestro gran día! 💛
+            <p>Nuestra salida quedó registrada con tus opciones:</p>
+            
+            <div class="resumen-box">
+                📅 Fecha: <span id="resumenFecha"></span><br>
+                ⏰ Hora: <span id="resumenHora"></span><br>
+                🍕 Comida: <span id="resumenComida"></span><br>
+                🥂 Bebida: <span id="resumenBebida"></span>
             </div>
-            <p style="font-size: 0.9rem; color: #555; margin-top: 25px; font-style: italic;">¡Tómale captura a esta pantalla y envíamelo por mensaje! 😉🔥</p>
+            
+            <p style="font-size: 1.2rem; font-weight: bold; color: #000; margin: 20px 0;">Listo, nos vemos ese día, Astrid :D</p>
+            <p style="font-size: 0.85rem; color: #666; font-style: italic;">¡Tómale captura a esta pantalla y envíamela! 😉💛</p>
         </div>
     </div>
 
     <script>
         let tamanoSi = 1;
         let clickNo = 0;
+        
+        // Variables vacías para obligar a seleccionar una opción
+        let comidaSeleccionada = "";
+        let bebidaSeleccionada = "";
+        
         const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
 
         function accionNo() {
@@ -206,41 +241,3 @@
             const gato = document.getElementById('gatoMeme');
             
             tamanoSi += 0.35;
-            btnSi.style.transform = "scale(" + tamanoSi + ")";
-            gato.innerText = gatosVideo[clickNo % gatosVideo.length];
-            
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight - 80);
-            
-            btnNo.style.position = "fixed";
-            btnNo.style.left = x + "px";
-            btnNo.style.top = y + "px";
-        }
-
-        function irAlPasoIntermedio() {
-            document.getElementById('btnNo').style.position = "absolute"; 
-            nextStep('stepIntermedio');
-        }
-
-        function irAlPaso2() { nextStep('step2'); }
-        function irAlPaso3() { nextStep('step3'); }
-        function irAlPaso4() { nextStep('step4'); }
-        function irAlPasoFinal() { nextStep('step5'); }
-
-        function nextStep(stepId) {
-            document.querySelectorAll('.step').forEach(function(step) {
-                step.classList.remove('active');
-            });
-            document.getElementById(stepId).classList.add('active');
-        }
-
-        function selectItem(element) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.option-box').forEach(function(opt) {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
-        }
-    </script>
-</body>
-</html>
