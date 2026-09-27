@@ -3,99 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pregunta 💛</title>
+    <title>¿Salimos? 💛</title>
     <style>
         body {
             background-color: #b4c6fc; /* Fondo azul del video */
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
         .card {
             background: #fffdf0;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            border: 3px solid #000;
-            max-width: 350px;
+            padding: 25px;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            max-width: 400px;
             width: 100%;
+            text-align: center;
+            border: 3px solid #000; /* Estilo caricatura del video */
+            box-sizing: border-box;
+            position: relative;
         }
-        .gato {
-            font-size: 70px;
-            margin-bottom: 10px;
-        }
-        .pregunta {
+        .tag-step {
             background: #ffe6a3;
             border: 2px solid #000;
-            border-radius: 10px;
-            padding: 5px;
-            font-weight: bold;
-            font-size: 0.8rem;
+            border-radius: 15px;
             display: inline-block;
+            padding: 4px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
         }
-        h2 { font-size: 1.4rem; color: #000; margin: 15px 0; }
-        .botones {
+        h2 { color: #000; font-size: 1.45rem; margin: 10px 0; line-height: 1.3; }
+        p { font-size: 1.05rem; color: #333; margin-bottom: 15px; }
+        
+        .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            margin-top: 20px;
-            height: 80px;
+            margin-top: 25px;
+            height: 90px;
+            position: relative;
         }
         button {
             padding: 12px 25px;
             font-size: 1.1rem;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 15px;
             border: 2px solid #000;
             cursor: pointer;
             box-shadow: 3px 3px 0px #000;
         }
-        #si { background-color: #a3fca3; }
-        #no { background-color: #fca3a3; position: relative; }
+        
+        #btnSi { background-color: #a3fca3; color: #000; transition: transform 0.1s ease; }
+        #btnNo { background-color: #fca3a3; color: #000; position: relative; z-index: 5; }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+        
+        /* Cuadrículas de comida y bebida solicitadas */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .option-box {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 10px 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 2px 2px 0px #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            user-select: none;
+        }
+        .option-box span { font-size: 1.6rem; }
+        .option-box.selected {
+            background: #b4c6fc;
+            box-shadow: 1px 1px 0px #000;
+            transform: translate(1px, 1px);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #000;
+            font-size: 1rem;
+            font-weight: bold;
+            box-sizing: border-box;
+            background-color: white;
+        }
+        .next-btn { background-color: #ffe600; color: #000; margin-top: 15px; width: 100%; box-shadow: 3px 3px 0px #000; }
+        
+        .cat-container { font-size: 70px; margin: 15px 0; height: 90px; display: flex; justify-content: center; align-items: center; }
+        .jumping { animation: jump 0.6s infinite alternate; }
+        @keyframes jump { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+        
+        .info-msg { color: #444; font-size: 0.9rem; font-weight: bold; margin-top: 10px; background: #fff4ca; padding: 8px; border-radius: 8px; border: 1px dashed #000; text-align: left; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div class="pregunta">PREGUNTA SERIA</div>
-        <!-- Inicio con gatos saludando como en el video -->
-        <div class="gato" id="gatoMeme">🐱👋</div>
-        <h2>¿Quieres acompañarme a hacer algo divertido juntos?</h2>
-        
-        <div class="botones">
-            <button id="si" onclick="alert('¡Perfecto! El botón SÍ respondió. Avísame para poner el paso 2.')">Sí</button>
-            <button id="no" onclick="moverNo()" onmouseover="moverNo()">No</button>
+        <!-- PASO 1: LA PREGUNTA INICIAL CON LOS GATITOS FUNCIONALES -->
+        <div id="step1" class="step active">
+            <span class="tag-step">Pregunta Seria</span>
+            <div class="cat-container" id="gatoMeme">🐱👋</div>
+            <h2>¿Quieres acompañarme a hacer algo divertido juntos?</h2>
+            <div class="btn-container">
+                <button id="btnSi" onclick="irAlPaso2()">Sí</button>
+                <button id="btnNo" onclick="accionNo()" onmouseover="accionNo()">No</button>
+            </div>
+        </div>
+
+        <!-- PASO 2: RESTRICCIONES DE HORARIOS Y FECHA A PARTIR DEL 01/10/2026 -->
+        <div id="step2" class="step">
+            <span class="tag-step">Paso 1</span>
+            <div class="cat-container jumping">😺🎉</div>
+            <h2>¡Listo! El plan principal lo armo yo...</h2>
+            <p>Pero tú elige las siguientes opciones:</p>
+            <p style="font-weight: bold; margin-bottom: 5px;">1 - Elige el día y la hora:</p>
+            
+            <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01" onchange="validarHorario()">
+            <select id="horaCita">
+                <!-- Se rellena automáticamente mediante JavaScript -->
+            </select>
+            <div class="info-msg" id="errorHora"></div>
+            
+            <button class="next-btn" onclick="nextStep(3)">Siguiente ➔</button>
+        </div>
+
+        <!-- PASO 3: SELECCIÓN DE COMIDA (JAPONESA Y COREANA CAMBIADAS) -->
+        <div id="step3" class="step">
+            <span class="tag-step">Paso 2</span>
+            <div class="cat-container">🐱🍕</div>
+            <h2>¿Qué se te antoja comer?</h2>
+            <div class="grid-options">
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Pizza 🍕')"><span>🍕</span>pizza</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Japonesa 🍣')"><span>🍣</span>japonesa</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Tacos 🌮')"><span>🌮</span>tacos</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Burgers 🍔')"><span>🍔</span>burger</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
+            </div>
+            <button class="next-btn" onclick="nextStep(4)">Siguiente ➔</button>
+        </div>
+
+        <!-- PASO 4: SELECCIÓN DE BEBIDAS SOLICITADAS -->
+        <div id="step4" class="step">
+            <span class="tag-step">Paso 3</span>
+            <div class="cat-container">🐱🥂</div>
+            <h2>¿Andamos con sed? ¿Qué tomamos? 🥂</h2>
+            <div class="grid-options">
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Vino 🍷')"><span>🍷</span>Vino</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Cerveza 🍺')"><span>🍺</span>Cerveza</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Trago/Cóctel 🍹')"><span>🍹</span>Trago</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Sake 🍶')"><span>🍶</span>Sake</div>
+                <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
+                <div class="option-box" onclick="selectItem(this, 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
+            </div>
+            <button class="next-btn" onclick="generarResumen()">Confirmar Plan ➔</button>
+        </div>
+
+        <!-- PASO 5: RESUMEN FINAL CON FORMATO REPARADO COMPLETAMENTE -->
+        <div id="step5" class="step">
+            <span class="tag-step">Confirmado</span>
+            <div class="cat-container">🐱🚗💨</div>
+            <h2>¡Trato hecho, Astrid! 🎉</h2>
+            <p>Ya quedó todo anotado para nuestro día:</p>
+            <h3 id="resumenFecha" style="background: #ffe6a3; padding: 12px; border-radius: 12px; border: 2px solid #000; font-size: 1.05rem; line-height: 1.4; white-space: pre-line;"></h3>
+            <p style="font-size: 1.1rem; margin-top: 15px;">Comida: <strong id="resumenComida"></strong></p>
+            <p style="font-size: 1.1rem;">Bebida: <strong id="resumenBebida"></strong></p>
+            <p style="font-size: 0.9rem; color: #555; margin-top: 25px; font-style: italic;">¡Tómale captura a esto y envíamelo! 💛</p>
         </div>
     </div>
 
     <script>
+        let comidaSeleccionada = "Lo que tú quieras 💛";
+        let bebidaSeleccionada = "Lo que tú quieras 💛";
         let tamanoSi = 1;
-        // Lista de gatitos del video según presiona "No"
-        const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
         let clickNo = 0;
+        
+        const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾", "💔"];
 
-        function moverNo() {
+        function accionNo() {
             clickNo++;
-            const btnNo = document.getElementById('no');
-            const btnSi = document.getElementById('si');
+            const btnNo = document.getElementById('btnNo');
+            const btnSi = document.getElementById('btnSi');
             const gato = document.getElementById('gatoMeme');
-
-            // Hacer crecer el botón SÍ
-            tamanoSi += 0.3;
+            
+            tamanoSi += 0.35;
             btnSi.style.transform = `scale(${tamanoSi})`;
-
-            // Cambiar los gatitos del video
             gato.innerText = gatosVideo[clickNo % gatosVideo.length];
-
-            // Movimiento básico ultra-seguro para que no se congele en celular
-            const x = (Math.random() - 0.5) * 140;
-            const y = (Math.random() - 0.5) * 60;
-            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            
+            const randomX = (Math.random() - 0.5) * 160;
+            const randomY = (Math.random() - 0.5) * 80;
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
-    </script>
-</body>
-</html>
+
+        function irAlPaso2() {
