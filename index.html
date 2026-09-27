@@ -160,7 +160,7 @@
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Pasta 🍝')"><span>🍝</span>pasta</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Coreana 🍜')"><span>🍜</span>coreana</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Postre 🧁')"><span>🧁</span>postre</div>
-                <div class="option-box" onclick="selectItem(this, 'comida', 'Café 22')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'comida', 'Café ☕')"><span>☕</span>café</div>
                 <div class="option-box" onclick="selectItem(this, 'comida', 'Brunch 🥞')"><span>🥞</span>brunch</div>
             </div>
             <button class="next-btn" onclick="irAlPaso4()">Siguiente ➔</button>
@@ -179,11 +179,23 @@
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Soju 🍾')"><span>🍾</span>Soju</div>
                 <div class="option-box" onclick="selectItem(this, 'bebida', 'Refresco/Agua 🥤')"><span>🥤</span>Sin Alcohol</div>
             </div>
-            <button class="next-btn" onclick="alert('¡Bebidas configuradas perfectamente! Avísame para añadir las reglas del reloj e inteligencia del calendario.')">Siguiente ➔</button>
+            <button class="next-btn" onclick="generarResumen()">Confirmar Plan ➔</button>
+        </div>
+
+        <!-- PASO 5: LA ÚLTIMA VENTANA (RESUMEN FINAL AÑADIDO) -->
+        <div id="step5" class="step">
+            <span class="tag-step">Confirmado</span>
+            <div class="cat-container">🐱🚗💨</div>
+            <h2>¡Trato hecho, Astrid! 🎉</h2>
+            <p>Ya quedó todo anotado para nuestro día:</p>
+            <h3 id="resumenFecha" style="background: #ffe6a3; padding: 12px; border-radius: 12px; border: 2px solid #000; font-size: 1.1rem; line-height: 1.4;"></h3>
+            <p style="font-size: 1.1rem; margin-top: 15px;">Comida: <strong id="resumenComida"></strong></p>
+            <p style="font-size: 1.1rem;">Bebida: <strong id="resumenBebida"></strong></p>
+            <p style="font-size: 0.9rem; color: #555; margin-top: 25px; font-style: italic;">¡Tómale captura a esto y envíamelo! 💛</p>
         </div>
     </div>
 
-    <script {nonce}>
+    <script>
         let tamanoSi = 1;
         let clickNo = 0;
         let comidaSeleccionada = "Lo que tú quieras 💛";
@@ -213,35 +225,9 @@
             nextStep('stepIntermedio');
         }
 
-        function irAlPaso2() {
-            nextStep('step2');
-        }
-
-        function irAlPaso3() {
-            nextStep('step3');
-        }
-
-        function irAlPaso4() {
-            nextStep('step4');
-        }
+        function irAlPaso2() { nextStep('step2'); }
+        function irAlPaso3() { nextStep('step3'); }
+        function irAlPaso4() { nextStep('step4'); }
 
         function nextStep(stepId) {
             document.querySelectorAll('.step').forEach(function(step) {
-                step.classList.remove('active');
-            });
-            document.getElementById(stepId).classList.add('active');
-        }
-
-        function selectItem(element, tipo, valor) {
-            const parent = element.parentElement;
-            parent.querySelectorAll('.option-box').forEach(function(opt) {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            
-            if(tipo === 'comida') comidaSeleccionada = valor;
-            if(tipo === 'bebida') bebidaSeleccionada = valor;
-        }
-    </script>
-</body>
-</html>
