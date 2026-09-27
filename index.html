@@ -66,7 +66,6 @@
         .step { display: none; }
         .step.active { display: block; }
         
-        /* Formularios y reloj */
         input, select {
             width: 100%;
             padding: 12px;
@@ -83,7 +82,6 @@
         .jumping { animation: jump 0.6s infinite alternate; }
         @keyframes jump { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
         
-        /* Cuadrículas */
         .grid-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -138,7 +136,7 @@
             <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
         </div>
 
-        <!-- PASO 2: SELECCIÓN DE FECHA CON RELOJ PERSONALIZADO -->
+        <!-- PASO 2: SELECCIÓN DE FECHA -->
         <div id="step2" class="step">
             <span class="tag-step">Paso 1</span>
             <div class="cat-container jumping">📅✨</div>
@@ -148,7 +146,7 @@
             
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01" onchange="validarHorario()">
             <select id="horaCita">
-                <!-- Se llena de forma dinámica con JS -->
+                <!-- Se rellena dinámicamente -->
             </select>
             <div class="info-msg" id="errorHora"></div>
             
@@ -224,3 +222,8 @@
             const y = Math.random() * (window.innerHeight - 80);
             
             btnNo.style.position = "fixed";
+            btnNo.style.left = x + "px";
+            btnNo.style.top = y + "px";
+        }
+
+        function irAlPasoIntermedio() {
