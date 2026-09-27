@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             box-sizing: border-box;
         }
         .card {
@@ -66,6 +66,7 @@
         .step { display: none; }
         .step.active { display: block; }
         
+        /* Estilos para el calendario y selectores */
         input {
             width: 100%;
             padding: 12px;
@@ -76,8 +77,37 @@
             font-weight: bold;
             box-sizing: border-box;
         }
-        .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; }
+        .next-btn { background-color: #ffe600; color: #000; margin-top: 20px; width: 100%; box-shadow: 3px 3px 0px #000; }
         .cat-container { font-size: 70px; margin: 15px 0; }
+        
+        /* Cuadrícula de opciones de comida */
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .option-box {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 10px 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 2px 2px 0px #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            user-select: none;
+        }
+        .option-box span { font-size: 1.6rem; }
+        .option-box.selected {
+            background: #b4c6fc;
+            box-shadow: 1px 1px 0px #000;
+            transform: translate(1px, 1px);
+        }
     </style>
 </head>
 <body>
@@ -90,7 +120,6 @@
             <h2>¿Quieres acompañarme a hacer algo divertido juntos?</h2>
             <div class="btn-container">
                 <button id="btnSi" onclick="irAlPasoIntermedio()">Sí</button>
-                <!-- El botón No inicia en una posición fija dentro del contenedor -->
                 <button id="btnNo" style="right: 40px;" onclick="accionNo()" onmouseover="accionNo()">No</button>
             </div>
         </div>
@@ -100,7 +129,7 @@
             <span class="tag-step">Momento Emotivo</span>
             <div class="cat-container">✨😻✨</div>
             <h2>¡Genial! sabía que dirías que si <br>(si no te raptaba xD)</h2>
-            <p style="font-size: 2.5rem; margin: 15px 0;">✨😁👉👈💛✨</p>
+            <p style="font-size: 2.5rem; margin: 15px 0;">✨検😁👉👈💛✨</p>
             <button class="next-btn" onclick="irAlPaso2()">Continuar ➔</button>
         </div>
 
@@ -115,13 +144,33 @@
             <input type="date" id="fechaCita" min="2026-10-01" value="2026-10-01">
             <input type="time" id="horaCita" value="20:00">
             
-            <button class="next-btn" onclick="alert('¡Excelente! Llegamos al final de este bloque sin errores. Avísame para agregar la comida.')">Siguiente ➔</button>
+            <button class="next-btn" onclick="irAlPaso3()">Siguiente ➔</button>
+        </div>
+
+        <!-- PASO 3: SELECCIÓN DE COMIDA (CON LOS REEMPLAZOS SOLICITADOS) -->
+        <div id="step3" class="step">
+            <span class="tag-step">Paso 2</span>
+            <div class="cat-container">🐱🍕</div>
+            <h2>¿Qué se te antoja comer?</h2>
+            <div class="grid-options">
+                <div class="option-box" onclick="selectItem(this, 'Pizza 🍕')"><span>🍕</span>pizza</div>
+                <div class="option-box" onclick="selectItem(this, 'Japonesa 🍣')"><span>🍣</span>japonesa</div>
+                <div class="option-box" onclick="selectItem(this, 'Tacos 🌮')"><span>🌮</span>tacos</div>
+                <div class="option-box" onclick="selectItem(this, 'Burgers 🍔')"><span>🍔</span>burger</div>
+                <div class="option-box" onclick="selectItem(this, 'Pasta 🍝')"><span>🍝</span>pasta</div>
+                <div class="option-box" onclick="selectItem(this, 'Coreana 🍜')"><span>🍜</span>coreana</div>
+                <div class="option-box" onclick="selectItem(this, 'Postre 🧁')"><span>🧁</span>postre</div>
+                <div class="option-box" onclick="selectItem(this, 'Café ☕')"><span>☕</span>café</div>
+                <div class="option-box" onclick="selectItem(this, 'Brunch 🥞')"><span>🥞</span>brunch</div>
+            </div>
+            <button class="next-btn" onclick="alert('¡Menú de comida funcionando! Avísame para agregar las bebidas en el siguiente paso.')">Siguiente ➔</button>
         </div>
     </div>
 
     <script>
         let tamanoSi = 1;
         let clickNo = 0;
+        let comidaSeleccionada = "Lo que tú quieras 💛";
         const gatosVideo = ["🐱👓", "🙀", "😾", "😭", "🐈🐾"];
 
         function accionNo() {
@@ -130,15 +179,10 @@
             const btnSi = document.getElementById('btnSi');
             const gato = document.getElementById('gatoMeme');
             
-            // Crece el botón SÍ
             tamanoSi += 0.35;
             btnSi.style.transform = "scale(" + tamanoSi + ")";
-            
-            // Cambia el gatito
             gato.innerText = gatosVideo[clickNo % gatosVideo.length];
             
-            // Mueve el botón NO de forma totalmente aleatoria por toda la ventana de la pantalla
-            // Restamos 100 para asegurar que no se salga por completo de los bordes del celular
             const x = Math.random() * (window.innerWidth - 120);
             const y = Math.random() * (window.innerHeight - 80);
             
@@ -148,15 +192,32 @@
         }
 
         function irAlPasoIntermedio() {
-            // Regresa el botón No a su flujo para evitar superposiciones invisibles
             document.getElementById('btnNo').style.position = "absolute"; 
-            document.getElementById('step1').classList.remove('active');
-            document.getElementById('stepIntermedio').classList.add('active');
+            nextStep('stepIntermedio');
         }
 
         function irAlPaso2() {
-            document.getElementById('stepIntermedio').classList.remove('active');
-            document.getElementById('step2').classList.add('active');
+            nextStep('step2');
+        }
+
+        function irAlPaso3() {
+            nextStep('step3');
+        }
+
+        function nextStep(stepId) {
+            document.querySelectorAll('.step').forEach(function(step) {
+                step.classList.remove('active');
+            });
+            document.getElementById(stepId).classList.add('active');
+        }
+
+        function selectItem(element, valor) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.option-box').forEach(function(opt) {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            comidaSeleccionada = valor;
         }
     </script>
 </body>
