@@ -6,7 +6,7 @@
     <title>¿Salimos? 💛</title>
     <style>
         body {
-            background-color: #b4c6fc; /* Fondo azul del video */
+            background-color: #b4c6fc;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
@@ -25,7 +25,7 @@
             max-width: 400px;
             width: 100%;
             text-align: center;
-            border: 3px solid #000; /* Estilo marcado tipo cómic */
+            border: 3px solid #000;
             box-sizing: border-box;
             position: relative;
         }
@@ -68,7 +68,6 @@
         .step { display: none; }
         .step.active { display: block; }
         
-        /* Cuadrícula de comida y bebidas basada en tu imagen */
         .grid-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -226,3 +225,6 @@
 
         function nextStep(stepNumber) {
             document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
